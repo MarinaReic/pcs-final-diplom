@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class BooleanSearchEngine implements SearchEngine {
-    Map<String, List<PageEntry>> results;
+    private final Map<String, List<PageEntry>> results;
 
     public BooleanSearchEngine(File pdfsDir) throws IOException {
         // прочтите тут все pdf и сохраните нужные данные,
@@ -39,15 +39,16 @@ public class BooleanSearchEngine implements SearchEngine {
                     }
                 }
             }
-            for (Map.Entry<String, List<PageEntry>> res : results.entrySet()) {
-                Collections.sort(res.getValue());
-            }
+        }
+        for (Map.Entry<String, List<PageEntry>> res : results.entrySet()) {
+            Collections.sort(res.getValue());
         }
     }
 
     @Override
     public List<PageEntry> search(String word) {
         // тут реализуйте поиск по слову
-        return results.get(word);
+        word = word.toLowerCase();
+        return results.containsKey(word) ? results.get(word) : Collections.EMPTY_LIST;
     }
 }
